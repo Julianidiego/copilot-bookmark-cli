@@ -1,0 +1,21 @@
+{
+  "name": "mona-bookmark-manager",
+  "version": "0.1.0",
+  "description": "Command-line helper for Mona's Bookmark Manager",
+  "type": "module",
+  "bin": {
+    "mona-bookmarks": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "tsx src/cli.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^3.14.0",
+    "typescript": "^5.7.2",
+    "vitest": "^0.34.6"
+  }
+}
