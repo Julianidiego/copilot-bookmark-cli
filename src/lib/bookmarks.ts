@@ -6,6 +6,7 @@ export interface ValidationResult {
 }
 
 const supportedProtocols = new Set(["http:", "https:"]);
+const domainLabelPattern = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
 
 function invalidResult(input: string, error: string): ValidationResult {
   return { input, valid: false, error };
@@ -21,6 +22,21 @@ function parseUrl(value: string): URL | undefined {
 
 function hasSupportedProtocol(url: URL): boolean {
   return supportedProtocols.has(url.protocol);
+}
+
+export function isValidDomain(value: string): boolean {
+  const domain = value.endsWith(".") ? value.slice(0, -1) : value;
+  const labels = domain.split(".");
+
+  if (labels.length < 2 || domain.length > 253) {
+    return false;
+  }
+
+  if (labels.every((label) => /^\d+$/.test(label))) {
+    return false;
+  }
+
+  return labels.every((label) => domainLabelPattern.test(label));
 }
 
 export function validateBookmark(value: string): ValidationResult {
