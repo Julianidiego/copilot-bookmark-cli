@@ -1,4 +1,4 @@
-# Mona Bookmark Manager CLI
+# Mona's Bookmark Manager CLI
 
 A TypeScript command-line helper for validating bookmarks before they are added to Mona's Bookmark Manager.
 
