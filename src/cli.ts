@@ -3,13 +3,22 @@
 import { parseArgs, validateBookmark } from "./lib/bookmarks.js";
 
 export interface CliOutput {
+  /** Write a normal command result. */
   log(message: string): void;
+  /** Write a command error. */
   error(message: string): void;
 }
 
 export { parseArgs, validateBookmark } from "./lib/bookmarks.js";
-export type { ValidationResult } from "./lib/bookmarks.js";
+export type { ParsedArgs, ValidationResult } from "./lib/bookmarks.js";
 
+/**
+ * Execute the bookmark validation command.
+ *
+ * @param args - Command-line arguments excluding the executable and script path.
+ * @param output - The output sink used for command results and errors.
+ * @returns `0` for valid input, `1` for invalid bookmarks, or `2` for usage errors.
+ */
 export function run(args: string[], output: CliOutput = console): number {
   let parsed: ReturnType<typeof parseArgs>;
 

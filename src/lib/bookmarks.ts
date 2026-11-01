@@ -1,8 +1,17 @@
 export interface ValidationResult {
+  /** The original value supplied for validation. */
   input: string;
+  /** Whether the value is a supported bookmark URL. */
   valid: boolean;
+  /** The normalized URL when validation succeeds. */
   url?: string;
+  /** The validation failure reason when validation fails. */
   error?: string;
+}
+
+export interface ParsedArgs {
+  /** URLs collected from each `--validate` option. */
+  validate: string[];
 }
 
 const supportedProtocols = new Set(["http:", "https:"]);
@@ -23,6 +32,12 @@ function hasSupportedProtocol(url: URL): boolean {
   return supportedProtocols.has(url.protocol);
 }
 
+/**
+ * Validate and normalize a bookmark URL.
+ *
+ * @param value - The raw URL value supplied by the caller.
+ * @returns A validation result containing either the normalized URL or an error.
+ */
 export function validateBookmark(value: string): ValidationResult {
   const input = value.trim();
 
@@ -42,7 +57,14 @@ export function validateBookmark(value: string): ValidationResult {
   return { input: value, valid: true, url: url.toString() };
 }
 
-export function parseArgs(args: string[]): { validate: string[] } {
+/**
+ * Parse the command-line options supported by the bookmark validator.
+ *
+ * @param args - Command-line arguments excluding the executable and script path.
+ * @returns The URLs supplied through `--validate`, in input order.
+ * @throws {Error} If an unknown option or a missing option value is encountered.
+ */
+export function parseArgs(args: string[]): ParsedArgs {
   const validate: string[] = [];
 
   for (let index = 0; index < args.length; index += 1) {
